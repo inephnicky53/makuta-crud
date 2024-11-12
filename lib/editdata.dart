@@ -57,6 +57,7 @@ class _EditDataPageState extends State<EditDataPage> {
                       if (value == null || value.isEmpty) {
                         return "L'adresse e-mail ne peut pas être vide";
                       }
+                      return null;
                     },
               ),
               const SizedBox(height: 16.0),
