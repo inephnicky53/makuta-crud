@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:makuta/tambahdata.dart';
+import 'package:makuta/adddata.dart';
 
 import 'editdata.dart';
 
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final response = await http.post(
           Uri.parse("http://192.168.0.104/flutterapi/crudflutter/delete.php"),
-          body: {"nisn": id},
+          body: {"email": id},
           headers: {"Access-Control-Allow-Origin": "*"});
       if (response.statusCode == 200) {
         return true;
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Home"),
+          title: const Text("Acceuil"),
         ),
         body: ListView.builder(
             itemCount: _listdata.length,
@@ -72,17 +72,17 @@ class _HomePageState extends State<HomePage> {
                         builder: ((context) => EditDataPage(
                               ListData: {
                                 "id": _listdata[index]['id'],
-                                "nisn": _listdata[index]['nisn'],
-                                "nama": _listdata[index]['nama'],
-                                "alamat": _listdata[index]['alamat'],
+                                "email": _listdata[index]['email'],
+                                "name": _listdata[index]['name'],
+                                "address": _listdata[index]['address'],
                               },
                             )),
                       ),
                     );
                   },
                   child: ListTile(
-                    title: Text(_listdata[index]['nama']),
-                    subtitle: Text(_listdata[index]['alamat']),
+                    title: Text(_listdata[index]['name']),
+                    subtitle: Text(_listdata[index]['address']),
                     trailing: IconButton(
                       onPressed: () {
                         showDialog(
@@ -90,32 +90,35 @@ class _HomePageState extends State<HomePage> {
                             builder: ((context) {
                               return AlertDialog(
                                   content: Text(
-                                      "Yakin ingin menghapus data ${_listdata[index]['nama']}?"),
+                                      "Êtes-vous sûr de vouloir supprimer les données de ${_listdata[index]['name']} ?"),
                                   actions: [
                                     ElevatedButton(
                                         onPressed: () {
-                                          _deletedata(_listdata[index]['nisn'])
+                                          _deletedata(_listdata[index]['email'])
                                               .then((value) {
                                             if (value) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
-                                                      content: Text(
-                                                          "Data Berhasil Di hapus")));
+                                                      content: Text("Les données ont été supprimées avec succès.")));
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
-                                                      content: Text(
-                                                          "Gagal hapus data")));
+                                                      content: Text("Échec de la suppression des données.")));
                                             }
                                           });
-                                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context)=>HomePage())), (route) => false);
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      HomePage())),
+                                              (route) => false);
                                         },
-                                        child: Text("Ya")),
+                                        child: Text("Oui")),
                                     ElevatedButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: Text("Tidak")),
+                                        child: Text("Non")),
                                   ]);
                             }));
                       },
@@ -128,7 +131,7 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const TambahData()));
+                MaterialPageRoute(builder: (context) => const AddData()));
           },
           child: const Icon(Icons.add),
         ));

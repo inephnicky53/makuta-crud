@@ -19,10 +19,9 @@ class _EditDataPageState extends State<EditDataPage> {
   TextEditingController address = TextEditingController();
   
  Future _update() async {
-    final respone = await http.post(
-        Uri.parse("http://192.168.0.104/flutterapi/crudflutter/update.php"),
+    final respone = await http.patch(
+        Uri.parse("http://locahost:8000/api/users/${id.text}"),
         body: {
-          "id" :id.text,
           "email" :email.text,
           "name" :name.text,
           "address": address.text,

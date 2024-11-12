@@ -50,7 +50,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         // Registration failed, do something
       }
     } else {
-      throw Exception('Failed to connect to server');
+      throw Exception('Echèc de connexion au serveur');
     }
   }
 
@@ -58,7 +58,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registration'),
+        title: const Text("S'inscrire sur Makuta CRUD"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -74,7 +74,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             TextFormField(
               controller: _passwordController,
               decoration: const InputDecoration(
-                labelText: 'Password',
+                labelText: 'Mot de passe',
               ),
               obscureText: true,
             ),
@@ -85,7 +85,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 final password = _passwordController.text;
                 await registerUser(email, password);
               },
-              child: const Text('Register'),
+              child: const Text("S'inscrire"),
             ),
           ],
         ),

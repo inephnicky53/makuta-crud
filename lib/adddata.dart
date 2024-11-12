@@ -5,24 +5,24 @@ import 'package:http/http.dart' as http;
 
 import 'homepage.dart';
 
-class TambahData extends StatefulWidget {
-  const TambahData({Key? key});
+class AddData extends StatefulWidget {
+  const AddData({Key? key});
 
   @override
-  State<TambahData> createState() => _TambahDataState();
+  State<AddData> createState() => _AddDataState();
 }
 
-class _TambahDataState extends State<TambahData> {
+class _AddDataState extends State<AddData> {
   final formkey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController address = TextEditingController();
  Future _simpan() async {
     final respone = await http.post(
-        Uri.parse("http://localhost:8000/"),
+        Uri.parse("http://localhost:8000/api/users"),
         body: {
           "email" :email.text,
-          "name" :name.text,
+          "name" : name.text,
           "adress": address.text,
         }
         );
@@ -34,7 +34,7 @@ class _TambahDataState extends State<TambahData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah Data"),
+        title: const Text("Ajouter un utilisateur"),
       ),
       body: Form(
           key: formkey,
@@ -42,43 +42,43 @@ class _TambahDataState extends State<TambahData> {
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               TextFormField(
-                controller: nisn,
+                controller: email,
                 decoration: const InputDecoration(
-                    labelText: "Nisn",
+                    labelText: "Email",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0),),
                     )),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Nisn tidak boleh kosong";
+                        return "Email ne peut pas être vide";
                       }
                     },
               ),
               const SizedBox(height: 16.0),
               TextFormField(
-                controller: nama,
+                controller: name,
                 decoration: const InputDecoration(
-                    labelText: "Nama",
+                    labelText: "Nom",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     )),
                     validator: (value){
                       if (value == null || value.isEmpty) {
-                        return "Nama tidak boleh kosong";
+                        return "Le nom ne peut pas être vide";
                       }
                     },
               ),
               const SizedBox(height: 16.0),
               TextFormField(
-                controller: alamat,
+                controller: address,
                 decoration: const InputDecoration(
-                    labelText: "alamat",
+                    labelText: "address",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     )),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Alamat tidak boleh kosong";
+                        return "L'adresse ne peut pas être vide";
                       }
                     },
               ),
@@ -89,15 +89,15 @@ class _TambahDataState extends State<TambahData> {
                     _simpan().then((value) {
                       if (value) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Data Berhasil Di Simpan")));
+                            const SnackBar(content: Text("Les données ont été enregistrées avec succès.")));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Gagal Simpan")));
+                            const SnackBar(content: Text("Échec de l'enregistrement.")));
                       }
                     });
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context)=>HomePage())), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context)=> HomePage())), (route) => false);
                 }
-                },child: const Text("Simpan"),
+                },child: const Text("Enregistrer"),
               )
             ]),
           )),
